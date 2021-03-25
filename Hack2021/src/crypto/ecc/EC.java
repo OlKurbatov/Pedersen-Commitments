@@ -1,5 +1,7 @@
 package crypto.ecc;
 
+import crypto.rand.Random;
+
 import java.math.BigInteger;
 import java.security.spec.ECPoint;
 
@@ -19,10 +21,10 @@ public class EC {
 
         public static ECPoint G = new ECPoint(gx, gy); // generator G
 
-        public static BigInteger hx = new BigInteger("ff68aac45cbf5b877b6bc8800d423cf1aaa399a7d4c28ffa", 16);
-        public static BigInteger hy = new BigInteger("cb198b1f8424169290be684df926620dd2790d02f52c6274", 16);
+        public static BigInteger hx = new BigInteger("5facdd1fdd025589f5bde95357ba6def4c4542f2e1fe67ba", 16);
+        public static BigInteger hy = new BigInteger("39edb71396cd066c009b26c2ac53a9bb6f353ef2d592be9d", 16);
 
-        public static ECPoint H = new ECPoint(gx, gy); // generator H
+        public static ECPoint H = new ECPoint(hx, hy); // generator H
     }
 
     public static class Modular {
@@ -138,5 +140,10 @@ public class EC {
             return "X: " + point.getAffineX().toString(16) + "\n" +
                     "Y: " + point.getAffineY().toString(16);
         }
+    }
+    public static void regenH (){
+        BigInteger nonce = Random.randomGen();
+        ECPoint point = Points.scalmult(EC.Constants.G, nonce);
+        Points.printEPoint(point);
     }
 }

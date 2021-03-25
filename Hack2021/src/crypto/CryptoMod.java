@@ -3,8 +3,10 @@ package crypto;
 import crypto.commit.PCommitment;
 import crypto.commit.PCommitment.Witness;
 import crypto.commit.PCommitment.Commit;
+import crypto.ecc.EC;
 import crypto.rand.Random;
 import java.math.BigInteger;
+import java.security.spec.ECPoint;
 
 public class CryptoMod {
 
@@ -24,7 +26,15 @@ public class CryptoMod {
         return PCommitment.verCommitment(commitment, witness);
     }
 
-    public static void main(String[] args) {
+    public  static void genH(){
+        EC.regenH();
+    }
 
+    public static void main(String[] args) {
+        BigInteger nonce = generateRandomNonce();
+        BigInteger vote = new BigInteger("12", 10);
+        Witness witness = generateWitness(vote, nonce);
+        Commit commit = generateCommitment(witness);
+        System.out.println(verifyCommitment(commit, witness));
     }
 }

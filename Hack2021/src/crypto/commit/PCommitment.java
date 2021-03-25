@@ -69,10 +69,18 @@ public class PCommitment {
     }
 
     public static Commit genCommitment (Witness witness){
+
+        // v*G + n*H
+
         return new Commit(EC.Points.addPoint(EC.Points.scalmult(EC.Constants.G, witness.getVote()),EC.Points.scalmult(EC.Constants.H, witness.getNonce())));
+
     }
 
     public static boolean verCommitment (Commit commitment, Witness witness){
+
+        // Point = v*G + n*H
+        // if Point.x == Commitment.x && Point.y == Commitment.y => true
+
         ECPoint point = EC.Points.addPoint(EC.Points.scalmult(EC.Constants.G, witness.getVote()),EC.Points.scalmult(EC.Constants.H, witness.getNonce()));
         if (point.getAffineX().equals(commitment.getCommitment().getAffineX()) && point.getAffineY().equals(commitment.getCommitment().getAffineY()))
             return true;
